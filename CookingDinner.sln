@@ -8,6 +8,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingDinner.Infrastructur
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingDinner.Domain", "CookingDinner.Domain\CookingDinner.Domain.csproj", "{8C639E86-4842-43E9-8FF6-28E98A12A24B}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "CookingDinner.Application", "CookingDinner.Application\CookingDinner.Application.csproj", "{6CCA18FE-8DB7-4872-B943-DB80564B82CD}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -30,5 +32,9 @@ Global
 		{8C639E86-4842-43E9-8FF6-28E98A12A24B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{8C639E86-4842-43E9-8FF6-28E98A12A24B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{8C639E86-4842-43E9-8FF6-28E98A12A24B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6CCA18FE-8DB7-4872-B943-DB80564B82CD}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6CCA18FE-8DB7-4872-B943-DB80564B82CD}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6CCA18FE-8DB7-4872-B943-DB80564B82CD}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6CCA18FE-8DB7-4872-B943-DB80564B82CD}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 EndGlobal

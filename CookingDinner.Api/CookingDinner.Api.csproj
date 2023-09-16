@@ -20,4 +20,10 @@
       </Content>
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\CookingDinner.Contracts\CookingDinner.Contracts.csproj" />
+      <ProjectReference Include="..\CookingDinner.Application\CookingDinner.Application.csproj" />
+        <ProjectReference Include="..\CookingDinner.Infrastructure\CookingDinner.Infrastructure.csproj" />
+    </ItemGroup>
+
 </Project>
