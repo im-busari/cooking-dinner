@@ -1,4 +1,6 @@
 using CookingDinner.Application.Services.Authentication;
+using CookingDinner.Application.Services.Authentication.Commands;
+using CookingDinner.Application.Services.Authentication.Queries;
 using CookingDinner.Contracts.Authentication;
 using CookingDinner.Domain.Common.Errors;
 using ErrorOr;
@@ -10,11 +12,15 @@ namespace CookingDiner.Api.Controllers;
 [Route("api/auth")]
 public class AuthenticationController : ApiController
 {
-    private IAuthenticationService _authenticationService;
+    private IAuthenticationCommandService _authenticationCommandService;
+    private IAuthenticationQueryService _authenticationQueryService;
 
-    public AuthenticationController(IAuthenticationService authenticationService)
+    public AuthenticationController(
+        IAuthenticationCommandService authenticationCommandService,
+        IAuthenticationQueryService authenticationQueryService)
     {
-        _authenticationService = authenticationService;
+        _authenticationCommandService = authenticationCommandService;
+        _authenticationQueryService = authenticationQueryService;
     }
 
     [HttpPost]
@@ -22,7 +28,7 @@ public class AuthenticationController : ApiController
     public IActionResult Register(RegisterRequest request)
     {
         ErrorOr<AuthenticationResult> registerResult =
-            _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
+            _authenticationCommandService.Register(request.FirstName, request.LastName, request.Email, request.Password);
         
         return registerResult.Match(
             authResult => Ok(MapAuthResult(authResult)),
@@ -38,7 +44,7 @@ public class AuthenticationController : ApiController
     public IActionResult Login(LoginRequest request)
     {
         ErrorOr<AuthenticationResult> loginResult =
-            _authenticationService.Login(request.Email, request.Password);
+            _authenticationQueryService.Login(request.Email, request.Password);
 
         if (loginResult.IsError && loginResult.FirstError == Errors.Authentication.InvalidCredentials)
         {
