@@ -1,6 +1,7 @@
 using CookingDinner.Application.Common.Errors;
 using CookingDinner.Application.Services.Authentication;
 using CookingDinner.Contracts.Authentication;
+using FluentResults;
 using Microsoft.AspNetCore.Mvc;
 using OneOf;
 
@@ -21,12 +22,20 @@ public class AuthenticationController : ControllerBase
     [Route("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        OneOf<AuthenticationResult, IError> registerResult =
+        Result<AuthenticationResult> registerResult =
             _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
 
-        return registerResult.Match(
-            authResult => Ok(MapAuthResult(authResult)),
-            error => Problem(statusCode: (int)error.StatusCode, title: error.ErrorMessage));
+        if (registerResult.IsSuccess) return Ok(MapAuthResult(registerResult.Value));
+
+        var firstError = registerResult.Errors[0];
+
+        if (firstError is DuplicateEmailError) return Problem(statusCode: StatusCodes.Status409Conflict, detail: "Email already taken.");
+
+        return Problem();
+        
+        // return registerResult.Match(
+        //     authResult => Ok(MapAuthResult(authResult)),
+        //     error => Problem(statusCode: (int)error.StatusCode, title: error.ErrorMessage));
     }
     
     [HttpPost]
