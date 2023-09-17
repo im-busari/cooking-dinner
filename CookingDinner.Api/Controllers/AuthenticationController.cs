@@ -1,6 +1,8 @@
+using CookingDinner.Application.Common.Errors;
 using CookingDinner.Application.Services.Authentication;
 using CookingDinner.Contracts.Authentication;
 using Microsoft.AspNetCore.Mvc;
+using OneOf;
 
 namespace CookingDiner.Api.Controllers;
 
@@ -19,18 +21,12 @@ public class AuthenticationController : ControllerBase
     [Route("register")]
     public IActionResult Register(RegisterRequest request)
     {
-        var authResult =
+        OneOf<AuthenticationResult, IError> registerResult =
             _authenticationService.Register(request.FirstName, request.LastName, request.Email, request.Password);
 
-        var response = new AuthenticationResponse(
-            authResult.User.Id,
-            authResult.User.FirstName,
-            authResult.User.LastName,
-            authResult.User.Email,
-            authResult.Token
-        );
-            
-        return Ok(response);
+        return registerResult.Match(
+            authResult => Ok(MapAuthResult(authResult)),
+            error => Problem(statusCode: (int)error.StatusCode, title: error.ErrorMessage));
     }
     
     [HttpPost]
@@ -50,5 +46,13 @@ public class AuthenticationController : ControllerBase
             
         return Ok(response);
     }
+    
+    private static AuthenticationResponse MapAuthResult(AuthenticationResult authResult) => new (
+        authResult.User.Id,
+        authResult.User.FirstName,
+        authResult.User.LastName,
+        authResult.User.Email,
+        authResult.Token
+    );
     
 }

@@ -2,6 +2,7 @@ using CookingDinner.Application.Common.Errors;
 using CookingDinner.Application.Common.Interfaces;
 using CookingDinner.Application.Common.Interfaces.Persistance;
 using CookingDinner.Domain.Entities;
+using OneOf;
 
 namespace CookingDinner.Application.Services.Authentication;
 
@@ -14,12 +15,12 @@ public class AuthenticationService : IAuthenticationService
         _jwtTokenGenerator = jwtTokenGenerator;
         _userRepository = userRepository;
     }
-    public AuthenticationResult Register(string firstName, string lastName, string email, string password)
+    public OneOf<AuthenticationResult, IError> Register(string firstName, string lastName, string email, string password)
     {
         // 1. Validate the user doesn't exist
         if (_userRepository.GetUserByEmail(email) is not null)
         {
-            throw new DuplicateEmailException();
+            return new DuplicateEmailError();
         }
         
         // 2. Create a user (generate unique ID) & Persist to DB
