@@ -26,8 +26,4 @@
         <ProjectReference Include="..\CookingDinner.Infrastructure\CookingDinner.Infrastructure.csproj" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Folder Include="Common\" />
-    </ItemGroup>
-
 </Project>
