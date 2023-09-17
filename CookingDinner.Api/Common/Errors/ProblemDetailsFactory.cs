@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc.Infrastructure;
 using Microsoft.AspNetCore.Mvc.ModelBinding;
 using Microsoft.Extensions.Options;
 
-namespace CookingDiner.Api.Errors;
+namespace CookingDiner.Api.Common.Errors;
 
 // Copy from DefaultProblemDetailsFactory. Here for testing purposes
 public class CookingDinnerProblemDetailsFactory : ProblemDetailsFactory

@@ -1,6 +1,4 @@
-using CookingDiner.Api.Errors;
-using CookingDiner.Api.Filters;
-using CookingDiner.Api.Middleware;
+using CookingDiner.Api.Common.Errors;
 using CookingDinner.Application;
 using CookingDinner.Infrastructure;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
@@ -17,22 +15,12 @@ builder.Services
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddControllers();
-
-// Overrider problemDetailsFactory implementation
 builder.Services.AddSingleton<ProblemDetailsFactory, CookingDinnerProblemDetailsFactory>();
-
-//  Error Handling using FilterAttributes
-// builder.Services.AddControllers(options =>
-// {
-//     options.Filters.Add<ErrorHandlingFilterAttribute>();
-// }); // NEW
 
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Middlewares
-// app.UseMiddleware<ErrorHandlingMiddleware>();
 app.UseExceptionHandler("/api/error");
 
 // Configure the HTTP request pipeline.
